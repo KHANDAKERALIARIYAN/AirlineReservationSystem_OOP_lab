@@ -215,4 +215,9 @@ public class Customer {
     public List<Integer> getNumOfTicketsBookedByUser() {
         return numOfTicketsBookedByUser;
     }
+
+    public void addExistingFlightToCustomerList(int customerIndex, int numOfTickets) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addExistingFlightToCustomerList'");
+    }
 }
