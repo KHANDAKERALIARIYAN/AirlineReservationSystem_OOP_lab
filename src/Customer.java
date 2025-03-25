@@ -38,26 +38,27 @@ public class Customer {
 
     public void addNewCustomer() {
         System.out.printf("\n\n\n%60s ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++", "");
-        Scanner read = new Scanner(System.in);
-        System.out.print("\nEnter your name :\t");
-        String name = read.nextLine();
-        System.out.print("Enter your email address :\t");
-        String email = read.nextLine();
-        while (isUniqueData(email)) {
-            System.out.println(
-                    "ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
+        try (Scanner read = new Scanner(System.in)) {
+            System.out.print("\nEnter your name :\t");
+            String name = read.nextLine();
             System.out.print("Enter your email address :\t");
-            email = read.nextLine();
+            String email = read.nextLine();
+            while (isUniqueData(email)) {
+                System.out.println(
+                        "ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
+                System.out.print("Enter your email address :\t");
+                email = read.nextLine();
+            }
+            System.out.print("Enter your Password :\t");
+            String password = read.nextLine();
+            System.out.print("Enter your Phone number :\t");
+            String phone = read.nextLine();
+            System.out.print("Enter your address :\t");
+            String address = read.nextLine();
+            System.out.print("Enter your age :\t");
+            int age = read.nextInt();
+            customerCollection.add(new Customer(name, email, password, phone, address, age));
         }
-        System.out.print("Enter your Password :\t");
-        String password = read.nextLine();
-        System.out.print("Enter your Phone number :\t");
-        String phone = read.nextLine();
-        System.out.print("Enter your address :\t");
-        String address = read.nextLine();
-        System.out.print("Enter your age :\t");
-        int age = read.nextInt();
-        customerCollection.add(new Customer(name, email, password, phone, address, age));
     }
 
     private String toString(int i) {
@@ -100,23 +101,24 @@ public class Customer {
 
     public void editUserInfo(String ID) {
         boolean isFound = false;
-        Scanner read = new Scanner(System.in);
-        for (Customer c : customerCollection) {
-            if (ID.equals(c.getUserID())) {
-                isFound = true;
-                System.out.print("\nEnter the new name of the Passenger:\t");
-                String name = read.nextLine();
-                c.setName(name);
-                System.out.print("Enter the new email address of Passenger " + name + ":\t");
-                c.setEmail(read.nextLine());
-                System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
-                c.setPhone(read.nextLine());
-                System.out.print("Enter the new address of Passenger " + name + ":\t");
-                c.setAddress(read.nextLine());
-                System.out.print("Enter the new age of Passenger " + name + ":\t");
-                c.setAge(read.nextInt());
-                displayCustomersData(false);
-                break;
+        try (Scanner read = new Scanner(System.in)) {
+            for (Customer c : customerCollection) {
+                if (ID.equals(c.getUserID())) {
+                    isFound = true;
+                    System.out.print("\nEnter the new name of the Passenger:\t");
+                    String name = read.nextLine();
+                    c.setName(name);
+                    System.out.print("Enter the new email address of Passenger " + name + ":\t");
+                    c.setEmail(read.nextLine());
+                    System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
+                    c.setPhone(read.nextLine());
+                    System.out.print("Enter the new address of Passenger " + name + ":\t");
+                    c.setAddress(read.nextLine());
+                    System.out.print("Enter the new age of Passenger " + name + ":\t");
+                    c.setAge(read.nextInt());
+                    displayCustomersData(false);
+                    break;
+                }
             }
         }
         if (!isFound) {
@@ -250,5 +252,5 @@ public class Customer {
     public void setAge(int age) {
         this.age = age;
     }
-    
+
 }
