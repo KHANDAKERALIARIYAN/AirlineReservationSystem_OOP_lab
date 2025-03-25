@@ -1,29 +1,10 @@
-/*
- * This class is intended to be the main class for this Project. All necessary methods are getting calls from this class.
- *
- *
- */
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class User {
-
-    // ************************************************************ Fields
-    // ************************************************************
-
-    /*
-     * 2D Array to store admin credentials. Default credentials are stored on [0][0]
-     * index. Max num of admins can be 10....
-     */
     static String[][] adminUserNameAndPassword = new String[10][2];
     private static List<Customer> customersCollection = new ArrayList<>();
-
-    // ************************************************************
-    // Behaviours/Methods
-    // ************************************************************
-
     public static void main(String[] args) {
         int countNumOfUsers = 1;
         RolesAndPermissions r1 = new RolesAndPermissions();
@@ -47,17 +28,8 @@ public class User {
 
         do {
             Scanner read1 = new Scanner(System.in);
-            /*
-             * If desiredOption is 1 then call the login method.... if default credentials
-             * are used then set the permission
-             * level to standard/default where the user can just view the customer's
-             * data...if not found, then return -1, and if
-             * data is found then show the user display menu for adding, updating, deleting
-             * and searching users/customers...
-             */
             if (desiredOption == 1) {
 
-                /* Default username and password.... */
                 adminUserNameAndPassword[0][0] = "root";
                 adminUserNameAndPassword[0][1] = "root";
                 
@@ -82,11 +54,6 @@ public class User {
                             "%-20sLogged in Successfully as \"%s\"..... For further Proceedings, enter a value from below....",
                             "", username);
 
-                    /*
-                     * Going to Display the CRUD operations to be performed by the privileged
-                     * user.....Which includes Creating, Updating
-                     * Reading(Searching) and deleting a customer....
-                     */
                     do {
                         System.out.printf("\n\n%-60s+++++++++ 2nd Layer Menu +++++++++%50sLogged in as \"%s\"\n", "",
                                 "", username);
@@ -376,9 +343,6 @@ public class User {
                     "(12) Pressing \"0\" will make you logout of the program...You can login back at anytime with your credentials...for this particular run-time... \n");
         }
     }
-
-    // ************************************************************ Setters &
-    // Getters ************************************************************
 
     public static List<Customer> getCustomersCollection() {
         return customersCollection;

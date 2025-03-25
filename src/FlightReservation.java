@@ -1,33 +1,10 @@
-/*
- * FlightReservation class allows the user to book, cancel and check the status of the registered flights.
- *
- *
- * */
-
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class FlightReservation implements DisplayClass {
-
-    //        ************************************************************ Fields ************************************************************
     Flight flight = new Flight();
     int flightIndexInFlightList;
-
-    //        ************************************************************ Behaviours/Methods ************************************************************
-
-
-    /**
-     * Book the numOfTickets for said flight for the specified user. Update the available seats in main system by
-     * Subtracting the numOfTickets from the main system. If a new customer registers for the flight, then it adds
-     * the customer to that flight, else if the user is already added to that flight, then it just updates the
-     * numOfSeats of that flight.
-     *
-     * @param flightNo     FlightID of the flight to be booked
-     * @param numOfTickets number of tickets to be booked
-     * @param userID       userID of the user which is booking the flight
-     */
     void bookFlight(String flightNo, int numOfTickets, String userID) {
         boolean isFound = false;
         for (Flight f1 : flight.getFlightList()) {
@@ -60,12 +37,6 @@ public class FlightReservation implements DisplayClass {
         }
     }
 
-    /**
-     * Cancels the flight for a particular user and return/add the numOfTickets back to
-     * the main flight scheduler.
-     *
-     * @param userID    ID of the user for whom the flight is to be cancelled
-     */
     void cancelFlight(String userID) {
         String flightNum = "";
         Scanner read = new Scanner(System.in);
@@ -107,7 +78,6 @@ public class FlightReservation implements DisplayClass {
                 }else{
                     System.out.println("No Flight Has been Registered by you with ID \"\"" + flightNum.toUpperCase() +"\"\".....");
                 }
-//                index++;
                 if (!isFound) {
                     System.out.println("ERROR!!! Couldn't find Flight with ID \"" + flightNum.toUpperCase() + "\".....");
                 }
@@ -226,6 +196,5 @@ public class FlightReservation implements DisplayClass {
             }
         }
     }
-
 
 }
