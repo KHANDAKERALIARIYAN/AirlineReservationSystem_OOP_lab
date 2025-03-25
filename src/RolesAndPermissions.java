@@ -1,26 +1,20 @@
 public class RolesAndPermissions extends User {
     public int isPrivilegedUserOrNot(String username, String password) {
-        int isFound = -1;
         for (int i = 0; i < adminUserNameAndPassword.length; i++) {
-            if (username.equals(adminUserNameAndPassword[i][0])) {
-                if (password.equals(adminUserNameAndPassword[i][1])) {
-                    isFound = i;
-                    break;
-                }
+            String[] credentials = adminUserNameAndPassword[i];
+            if (username.equals(credentials[0]) && password.equals(credentials[1])) {
+                return i;
             }
         }
-        return isFound;
+        return -1;
     }
+
     public String isPassengerRegistered(String email, String password) {
-        String isFound = "0";
-        for (Customer c : Customer.customerCollection) {
-            if (email.equals(c.getEmail())) {
-                if (password.equals(c.getPassword())) {
-                    isFound = "1-" + c.getUserID();
-                    break;
-                }
+        for (Customer customer : Customer.customerCollection) {
+            if (email.equals(customer.getEmail()) && password.equals(customer.getPassword())) {
+                return "1-" + customer.getUserID();
             }
         }
-        return isFound;
+        return "0";
     }
 }
