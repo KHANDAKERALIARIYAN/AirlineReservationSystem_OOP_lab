@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class User {
@@ -39,6 +40,11 @@ public class User {
                 }
             } while (desiredOption != 0);
         }
+    }
+
+    public static List<Customer> getCustomersCollection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCustomersCollection'");
     }
 }
 
