@@ -20,14 +20,20 @@ public class Menu {
         System.out.println("\n\n\t\t(a) Press 1 to display Admin Manual.");
         System.out.println("\t\t(b) Press 2 to display User Manual.");
         System.out.print("\nEnter the desired option :    ");
-        int choice = scanner.nextInt();
+        
+        try {
+            int choice = scanner.nextInt();
 
-        if (choice == 1) {
-            System.out.println("\nAdmin Manual: ...");
-        } else if (choice == 2) {
-            System.out.println("\nUser Manual: ...");
-        } else {
-            System.out.println("Invalid choice.");
+            if (choice == 1) {
+                System.out.println("\nAdmin Manual: ...");
+            } else if (choice == 2) {
+                System.out.println("\nUser Manual: ...");
+            } else {
+                System.out.println("Invalid choice.");
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a number.");
+            scanner.nextLine(); // Consume the invalid input
         }
     }
 }

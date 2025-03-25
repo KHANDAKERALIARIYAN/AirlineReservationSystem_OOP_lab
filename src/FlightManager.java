@@ -27,7 +27,7 @@ public class FlightManager {
                 case 2:
                     System.out.print("Enter Customer ID to search: ");
                     String searchId = scanner.next();
-                    customerManager.displayCustomers(false);
+                    customerManager.searchCustomerById(searchId); // Updated to use searchId
                     break;
                 case 3:
                     System.out.print("Enter Customer ID to update: ");

@@ -43,7 +43,6 @@ public class User {
     }
 
     public static List<Customer> getCustomersCollection() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getCustomersCollection'");
     }
 }
@@ -366,7 +365,10 @@ class FlightManager {
     FlightReservation bookingAndReserving = new FlightReservation();
 
     void displayFlightSchedule() {
-        f1.flightScheduler();
+        if (f1.getFlightList().isEmpty()) {
+            f1.flightScheduler(); // Create flights only if the list is empty
+        }
+        f1.displayFlightSchedule(); // Display the flight schedule
     }
 
     void bookFlight(Scanner scanner, String userID) {

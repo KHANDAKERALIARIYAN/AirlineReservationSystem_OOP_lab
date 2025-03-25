@@ -21,9 +21,11 @@ public class Authentication {
         } else if (privilege == 0) {
             System.out.println("Logged in with limited privileges.");
             customerManager.displayCustomers(true);
-        } else {
+        } else if (privilege == 1) {
             System.out.println("Logged in successfully as " + username);
             flightManager.handleAdminActions(scanner, customerManager);
+        } else {
+            System.out.println("ERROR: Unexpected privilege level.");
         }
     }
 
@@ -53,10 +55,14 @@ public class Authentication {
         RolesAndPermissions roles = new RolesAndPermissions();
         String[] result = roles.isPassengerRegistered(email, password).split("-");
 
-        if (Integer.parseInt(result[0]) == 1) {
-            flightManager.handlePassengerActions(scanner, result[1]);
-        } else {
-            System.out.println("ERROR: Invalid credentials.");
+        try {
+            if (Integer.parseInt(result[0]) == 1) {
+                flightManager.handlePassengerActions(scanner, result[1]);
+            } else {
+                System.out.println("ERROR: Invalid credentials.");
+            }
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.out.println("ERROR: Unexpected response from RolesAndPermissions.");
         }
     }
 

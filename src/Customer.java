@@ -114,10 +114,10 @@ public class Customer {
         String email;
         do {
             email = promptInput(read, "Enter your email address :\t");
-            if (isUniqueData(email)) {
+            if (!isUniqueData(email)) { // Fix: Negate the second call to isUniqueData
                 System.out.println("ERROR!!! User with the same email already exists. Use a new email or login.");
             }
-        } while (isUniqueData(email));
+        } while (!isUniqueData(email)); // Fix: Negate the condition here
         return email;
     }
 

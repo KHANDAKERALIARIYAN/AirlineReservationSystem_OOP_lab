@@ -27,7 +27,7 @@ public class FlightReservation implements DisplayClass {
 
         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, selectedFlight)) {
             addNumberOfTicketsToAlreadyBookedFlight(customer, numOfTickets);
-            int flightIndex = flightIndex(flight.getFlightList(), flight);
+            int flightIndex = flightIndex(flight.getFlightList(), selectedFlight); // Fixed: Use selectedFlight
             if (flightIndex != -1) {
                 customer.addExistingFlightToCustomerList(flightIndex, numOfTickets);
             }
