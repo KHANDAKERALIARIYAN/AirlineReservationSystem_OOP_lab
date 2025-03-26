@@ -1,27 +1,29 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class FlightManager {
     private Flight flight = new Flight();
     private FlightReservation reservation = new FlightReservation();
+    private CustomerManager customerManager = new CustomerManager(); // Avoid redundant object creation
 
-    public void handleAdminActions(Scanner scanner, CustomerManager customerManager) {
+    public void handleAdminActions(Scanner scanner) {
         int choice;
         do {
             displayAdminMenu();
-            choice = scanner.nextInt();
+            choice = getUserChoice(scanner);
 
             switch (choice) {
                 case 1:
                     customerManager.registerPassenger(scanner);
                     break;
                 case 2:
-                    handleSearchPassenger(scanner, customerManager);
+                    handleSearchPassenger(scanner);
                     break;
                 case 3:
-                    handleUpdatePassenger(scanner, customerManager);
+                    handleUpdatePassenger(scanner);
                     break;
                 case 4:
-                    handleDeletePassenger(scanner, customerManager);
+                    handleDeletePassenger(scanner);
                     break;
                 case 5:
                     customerManager.displayCustomers(false);
@@ -39,7 +41,7 @@ public class FlightManager {
                     System.out.println("Logging out...");
                     break;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
     }
@@ -48,7 +50,7 @@ public class FlightManager {
         int choice;
         do {
             displayPassengerMenu();
-            choice = scanner.nextInt();
+            choice = getUserChoice(scanner);
 
             switch (choice) {
                 case 1:
@@ -73,7 +75,7 @@ public class FlightManager {
                     System.out.println("Logging out...");
                     break;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
     }
@@ -100,23 +102,33 @@ public class FlightManager {
         System.out.println("4. Display Flights");
         System.out.println("5. Cancel Flight");
         System.out.println("6. Display My Flights");
-        System.out.println("0. Logout");
         System.out.print("Enter your choice: ");
     }
 
-    private void handleSearchPassenger(Scanner scanner, CustomerManager customerManager) {
+    private int getUserChoice(Scanner scanner) {
+        try {
+            System.out.print("Enter your choice: ");
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.nextLine(); // Clear invalid input
+            System.out.println("Invalid input. Please enter a number.");
+            return -1; // Return invalid choice
+        }
+    }
+
+    private void handleSearchPassenger(Scanner scanner) {
         System.out.print("Enter Customer ID to search: ");
         String searchId = scanner.next();
         customerManager.searchCustomerById(searchId);
     }
 
-    private void handleUpdatePassenger(Scanner scanner, CustomerManager customerManager) {
+    private void handleUpdatePassenger(Scanner scanner) {
         System.out.print("Enter Customer ID to update: ");
         String updateId = scanner.next();
         customerManager.editCustomer(updateId);
     }
 
-    private void handleDeletePassenger(Scanner scanner, CustomerManager customerManager) {
+    private void handleDeletePassenger(Scanner scanner) {
         System.out.print("Enter Customer ID to delete: ");
         String deleteId = scanner.next();
         customerManager.deleteCustomer(deleteId);
@@ -139,8 +151,24 @@ public class FlightManager {
         System.out.print("Enter Flight Number to book: ");
         String flightNum = scanner.next();
         System.out.print("Enter number of tickets: ");
-        int tickets = scanner.nextInt();
+        int tickets = getValidatedTickets(scanner);
         reservation.bookFlight(flightNum, tickets, passengerId);
+    }
+
+    private int getValidatedTickets(Scanner scanner) {
+        int tickets = 0;
+        while (tickets <= 0) {
+            try {
+                tickets = scanner.nextInt();
+                if (tickets <= 0) {
+                    System.out.print("Please enter a valid number of tickets: ");
+                }
+            } catch (InputMismatchException e) {
+                scanner.nextLine(); // Clear invalid input
+                System.out.print("Invalid input. Please enter a valid number of tickets: ");
+            }
+        }
+        return tickets;
     }
 
     private void handleUpdateProfile(String passengerId) {
@@ -152,7 +180,6 @@ public class FlightManager {
         System.out.print("Are you sure to delete your account? (Y/N): ");
         char confirm = scanner.next().charAt(0);
         if (confirm == 'Y' || confirm == 'y') {
-            CustomerManager customerManager = new CustomerManager();
             customerManager.deleteCustomer(passengerId);
             System.out.println("Account deleted successfully.");
         }
