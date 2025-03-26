@@ -1,13 +1,20 @@
 import java.util.Scanner;
 
 public class Authentication {
-    private static String[][] adminCredentials = new String[10][2];
+    private static final int MAX_ADMINS = 10;
+    private static final String INVALID_CREDENTIALS_ERROR = "ERROR: Invalid credentials.";
+    private static final String UNEXPECTED_PRIVILEGE_ERROR = "ERROR: Unexpected privilege level.";
+    private static final String UNEXPECTED_RESPONSE_ERROR = "ERROR: Unexpected response from RolesAndPermissions.";
+
+    private static String[][] adminCredentials = new String[MAX_ADMINS][2];
     private int adminCount = 1;
 
-    public void handleAdminLogin(Scanner scanner, CustomerManager customerManager, FlightManager flightManager) {
+    static {
         adminCredentials[0][0] = "root";
         adminCredentials[0][1] = "root";
+    }
 
+    public void handleAdminLogin(Scanner scanner, CustomerManager customerManager, FlightManager flightManager) {
         System.out.print("\nEnter the UserName to login to the Management System: ");
         String username = scanner.next();
         System.out.print("Enter the Password to login to the Management System: ");
@@ -16,16 +23,20 @@ public class Authentication {
         RolesAndPermissions roles = new RolesAndPermissions();
         int privilege = roles.isPrivilegedUserOrNot(username, password);
 
-        if (privilege == -1) {
-            System.out.println("ERROR: Invalid credentials.");
-        } else if (privilege == 0) {
-            System.out.println("Logged in with limited privileges.");
-            customerManager.displayCustomers(true);
-        } else if (privilege == 1) {
-            System.out.println("Logged in successfully as " + username);
-            flightManager.handleAdminActions(scanner, customerManager);
-        } else {
-            System.out.println("ERROR: Unexpected privilege level.");
+        switch (privilege) {
+            case -1:
+                System.out.println(INVALID_CREDENTIALS_ERROR);
+                break;
+            case 0:
+                System.out.println("Logged in with limited privileges.");
+                customerManager.displayCustomers(true);
+                break;
+            case 1:
+                System.out.println("Logged in successfully as " + username);
+                flightManager.handleAdminActions(scanner, customerManager);
+                break;
+            default:
+                System.out.println(UNEXPECTED_PRIVILEGE_ERROR);
         }
     }
 
@@ -40,10 +51,14 @@ public class Authentication {
             username = scanner.next();
         }
 
-        adminCredentials[adminCount][0] = username;
-        adminCredentials[adminCount][1] = password;
-        adminCount++;
-        System.out.println("Admin registered successfully.");
+        if (adminCount < MAX_ADMINS) {
+            adminCredentials[adminCount][0] = username;
+            adminCredentials[adminCount][1] = password;
+            adminCount++;
+            System.out.println("Admin registered successfully.");
+        } else {
+            System.out.println("ERROR: Maximum number of admins reached.");
+        }
     }
 
     public void handlePassengerLogin(Scanner scanner, FlightManager flightManager) {
@@ -56,19 +71,20 @@ public class Authentication {
         String[] result = roles.isPassengerRegistered(email, password).split("-");
 
         try {
-            if (Integer.parseInt(result[0]) == 1) {
+            if (result.length > 1 && Integer.parseInt(result[0]) == 1) {
                 flightManager.handlePassengerActions(scanner, result[1]);
             } else {
-                System.out.println("ERROR: Invalid credentials.");
+                System.out.println(INVALID_CREDENTIALS_ERROR);
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("ERROR: Unexpected response from RolesAndPermissions.");
+        } catch (NumberFormatException e) {
+            System.out.println(UNEXPECTED_RESPONSE_ERROR);
         }
     }
 
     private boolean isAdminExists(String username) {
+        if (username == null) return false;
         for (int i = 0; i < adminCount; i++) {
-            if (adminCredentials[i][0].equals(username)) {
+            if (username.equals(adminCredentials[i][0])) {
                 return true;
             }
         }
