@@ -21,19 +21,26 @@ public class Menu {
         System.out.println("\t\t(b) Press 2 to display User Manual.");
         System.out.print("\nEnter the desired option :    ");
         
-        try {
-            int choice = scanner.nextInt();
+        while (true) {
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
 
-            if (choice == 1) {
-                System.out.println("\nAdmin Manual: ...");
-            } else if (choice == 2) {
-                System.out.println("\nUser Manual: ...");
-            } else {
-                System.out.println("Invalid choice.");
+                switch (choice) {
+                    case 1:
+                        System.out.println("\nAdmin Manual: ...");
+                        return; // Exit the method after valid input
+                    case 2:
+                        System.out.println("\nUser Manual: ...");
+                        return; // Exit the method after valid input
+                    default:
+                        System.out.println("Invalid choice. Please enter 1 or 2.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine(); // Consume the invalid input
             }
-        } catch (Exception e) {
-            System.out.println("Invalid input. Please enter a number.");
-            scanner.nextLine(); // Consume the invalid input
         }
     }
 }
