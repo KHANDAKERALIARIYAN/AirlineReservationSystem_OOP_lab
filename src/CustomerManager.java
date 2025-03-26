@@ -12,18 +12,28 @@ public class CustomerManager {
     }
 
     public void displayCustomers(boolean isLimited) {
-        Customer customer = new Customer();
-        customer.displayCustomersData(isLimited);
+        for (Customer customer : customers) {
+            customer.displayCustomerData(isLimited);
+        }
     }
 
     public void editCustomer(String customerId) {
-        Customer customer = new Customer();
-        customer.editUserInfo(customerId);
+        Customer customer = findCustomerById(customerId);
+        if (customer != null) {
+            customer.editUserInfo(customerId);
+        } else {
+            System.out.println("Customer with ID " + customerId + " not found.");
+        }
     }
 
     public void deleteCustomer(String customerId) {
-        Customer customer = new Customer();
-        customer.deleteUser(customerId);
+        Customer customer = findCustomerById(customerId);
+        if (customer != null) {
+            customers.remove(customer);
+            System.out.println("Customer with ID " + customerId + " deleted successfully.");
+        } else {
+            System.out.println("Customer with ID " + customerId + " not found.");
+        }
     }
 
     public void searchCustomerById(String customerId) {
