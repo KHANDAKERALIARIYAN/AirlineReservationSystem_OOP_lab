@@ -217,7 +217,25 @@ public class Customer {
     }
 
     public void addExistingFlightToCustomerList(int customerIndex, int numOfTickets) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addExistingFlightToCustomerList'");
+        if (customerIndex < 0 || customerIndex >= customerCollection.size()) {
+            System.out.println("Invalid customer index.");
+            return;
+        }
+
+        Customer customer = customerCollection.get(customerIndex);
+        try (Scanner read = new Scanner(System.in)) {
+            System.out.print("Enter the Flight ID to register: ");
+            String flightID = read.nextLine();
+
+            // Assuming Flight class and a method to find a flight by ID exist
+            Flight flight = Flight.findFlightByID(flightID);
+            if (flight != null) {
+                customer.getFlightsRegisteredByUser().add(flight);
+                customer.getNumOfTicketsBookedByUser().add(numOfTickets);
+                System.out.printf("Flight with ID %s successfully added for customer %s.\n", flightID, customer.getName());
+            } else {
+                System.out.printf("No flight found with ID %s.\n", flightID);
+            }
+        }
     }
 }
