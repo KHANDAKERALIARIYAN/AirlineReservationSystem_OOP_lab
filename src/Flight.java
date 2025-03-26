@@ -160,13 +160,13 @@ public class Flight extends FlightDistance {
 
     public String createNewFlightsAndTime() {
         Calendar c = Calendar.getInstance();
-        nextFlightDay += Math.random() * 7;
+        nextFlightDay += (int) (Math.random() * 7); // Increment days randomly
         c.add(Calendar.DATE, nextFlightDay);
-        c.add(Calendar.HOUR, nextFlightDay);
-        c.set(Calendar.MINUTE, ((c.get(Calendar.MINUTE) * 3) - (int) (Math.random() * 45)));
+        c.add(Calendar.HOUR, (int) (Math.random() * 24)); // Add random hours within a day
+        c.add(Calendar.MINUTE, (int) (Math.random() * 60)); // Add random minutes within an hour
         Date myDateObj = c.getTime();
         LocalDateTime date = Instant.ofEpochMilli(myDateObj.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        date = getNearestHourQuarter(date);
+        date = getNearestHourQuarter(date); // Round to the nearest quarter-hour
         return date.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy, HH:mm a "));
     }
 
