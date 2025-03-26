@@ -55,7 +55,7 @@ public class FlightReservation implements DisplayClass {
 
         try (Scanner read = new Scanner(System.in)) {
             System.out.print("Enter the Flight Number of the Flight you want to cancel: ");
-            String flightNum = read.nextLine();
+            String flightNum = read.nextLine().trim();
             System.out.print("Enter the number of tickets to cancel: ");
             int numOfTickets = read.nextInt();
 
@@ -68,9 +68,9 @@ public class FlightReservation implements DisplayClass {
             int index = customer.flightsRegisteredByUser.indexOf(flightToCancel);
             int numOfTicketsForFlight = customer.getNumOfTicketsBookedByUser().get(index);
 
-            while (numOfTickets > numOfTicketsForFlight) {
-                System.out.print("ERROR!!! Number of tickets cannot be greater than " + numOfTicketsForFlight + ". Please enter the number of tickets again: ");
-                numOfTickets = read.nextInt();
+            if (numOfTickets > numOfTicketsForFlight) {
+                System.out.printf("ERROR!!! Number of tickets cannot be greater than %d.%n", numOfTicketsForFlight);
+                return;
             }
 
             if (numOfTicketsForFlight == numOfTickets) {
@@ -81,6 +81,10 @@ public class FlightReservation implements DisplayClass {
                 flightToCancel.setNoOfSeatsInTheFlight(flightToCancel.getNoOfSeats() + numOfTickets);
                 customer.numOfTicketsBookedByUser.set(index, numOfTicketsForFlight - numOfTickets);
             }
+
+            System.out.printf("Successfully canceled %d tickets for Flight \"%s\".%n", numOfTickets, flightNum.toUpperCase());
+        } catch (Exception e) {
+            System.out.println("ERROR!!! Invalid input. Please try again.");
         }
     }
 
