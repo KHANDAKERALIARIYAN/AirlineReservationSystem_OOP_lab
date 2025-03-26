@@ -7,25 +7,27 @@ public class RolesAndPermissions extends User {
     };
 
     public int isPrivilegedUserOrNot(String username, String password) {
+        if (username == null || password == null) {
+            return -1; // Invalid input
+        }
         for (int i = 0; i < adminUserNameAndPassword.length; i++) {
             String[] credentials = adminUserNameAndPassword[i];
             if (username.equals(credentials[0]) && password.equals(credentials[1])) {
-                return i;
+                return i; // Privileged user found
             }
         }
-        return -1;
+        return -1; // Not a privileged user
     }
 
     public String isPassengerRegistered(String email, String password) {
-        // Ensure Customer.customerCollection is properly initialized
-        if (Customer.customerCollection == null) {
-            return "0";
+        if (email == null || password == null || Customer.customerCollection == null) {
+            return "0"; // Invalid input or uninitialized collection
         }
         for (Customer customer : Customer.customerCollection) {
             if (email.equals(customer.getEmail()) && password.equals(customer.getPassword())) {
-                return "1-" + customer.getUserID();
+                return "1-" + customer.getUserID(); // Registered passenger found
             }
         }
-        return "0";
+        return "0"; // Passenger not registered
     }
 }
