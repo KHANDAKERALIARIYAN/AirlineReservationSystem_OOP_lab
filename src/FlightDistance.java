@@ -1,5 +1,6 @@
 public abstract class FlightDistance {
-    public abstract String toString(int i);
+    @Override
+    public abstract String toString(); // Fixed method signature to override Object's toString
 
     public abstract String[] calculateDistance(double lat1, double lon1, double lat2, double lon2);
 
@@ -14,9 +15,11 @@ public abstract class FlightDistance {
     };
 
     public void displayMeasurementInstructions() {
-        System.out.printf("\n\n %100s\n %100s\n %100s\n", SYMBOLS, HEADER, SYMBOLS);
+        System.out.println("\n" + SYMBOLS);
+        System.out.println(HEADER);
+        System.out.println(SYMBOLS);
         for (String instruction : INSTRUCTIONS) {
-            System.out.println("\n\t\t" + instruction);
+            System.out.println("\n\t" + instruction);
         }
     }
 }
